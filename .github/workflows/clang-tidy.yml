@@ -11,10 +11,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: ["debian:bookworm", "debian:testing", "debian:experimental"]
+        image: ["debian:trixie", "debian:testing", "debian:experimental"]
         include:
-          - image: "debian:bookworm"
-            clang: 15
+          - image: "debian:trixie"
+            clang: 19
           - image: "debian:testing"
             clang: 19
           - image: "debian:experimental"
