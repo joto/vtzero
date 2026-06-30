@@ -2,16 +2,19 @@ name: clang-tidy
 
 on: [ push, pull_request ]
 
+permissions:
+  contents: read
+
 jobs:
   clang-tidy:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        image: ["debian:bookworm", "debian:testing", "debian:experimental"]
+        image: ["debian:trixie", "debian:testing", "debian:experimental"]
         include:
-          - image: "debian:bookworm"
-            clang: 15
+          - image: "debian:trixie"
+            clang: 19
           - image: "debian:testing"
             clang: 19
           - image: "debian:experimental"
@@ -37,7 +40,7 @@ jobs:
             git \
             make
         shell: bash
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/install-protozero
       - uses: ./.github/actions/cmake
       - name: Run clang-tidy
@@ -45,7 +48,7 @@ jobs:
         shell: bash
         working-directory: build
       - name: Upload clang-tidy log
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: vtzero-${{ github.sha }}-clang-tidy-${{ matrix.clang }}-log
